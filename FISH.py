@@ -105,7 +105,7 @@ class Window(tk.Tk):
 
         self.keyButton.grid(row=4, column=0, columnspan=10, pady=(5, 0), sticky="nsew")
 
-        self.map_widget = tkintermapview.TkinterMapView(self,width=1300, height=800, corner_radius=0)
+        self.map_widget = tkintermapview.TkinterMapView(self,width=100, height=800, corner_radius=0)
         self.map_widget.pack(fill="both", expand=True)
         self.map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22)
         #map_widget.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
