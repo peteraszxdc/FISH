@@ -3,66 +3,18 @@ import json, ssl, urllib.request
 import csv
 
 
-# 抓高鐵ＡＰＩ車站資訊
-def Get_THSRstation():
-    # API抓 參考網址 https://tdx.transportdata.tw/api-service/swagger/basic/268fc230-2e04-471b-a728-a726167c1cfc#/THSR/THSRApi_Station_2120
-    url = f"https://tdx.transportdata.tw/api/basic/v2/Rail/THSR/Station?%24top=30&%24format=JSON"
-    response = requests.get(url=url)
-    THSRstation_list = []  # list
-
-    if response.ok:
-        print("下載成功")
-        source_data = response.json()["JSON"]
-        for item in source_data:
-            # 建立list資料丟到county_forcase裡
-            THSRstation_list.append(
-                [
-                    item["StationUID"],
-                    item["StationID"],
-                    item["StationCode"],
-                    item["StationName"]["Zh_tw"],
-                    item["StationName"]["En"],
-                    item["StationAddress"],
-                ]
-            )
-
-        return THSRstation_list
-
-    else:
-        raise Exception("下載失敗")  # 自己定義raise 拋出自定義的錯誤訊息
-
-
-# 抓台北市垃圾車資訊
-# 分隊、地點、局編、抵達時間、經度、緯度、行政區、路線、車次、車號、里別、離開時間
-def Get_garbageStation():
-    # https://quality.data.gov.tw/dq_download_csv.php?nid=136515&md5_url=4b5e05b9646c77fc75d6d64682554b77
-    url = f"https://quality.data.gov.tw/dq_download_json.php?nid=136515&md5_url=4b5e05b9646c77fc75d6d64682554b77"
-
-    # 使用SSL module把證書驗證改成不需要驗證即可
-    context = ssl._create_unverified_context()
-    try:
-        with urllib.request.urlopen(url, context=context) as jsondata:
-            # 將JSON進行UTF-8的BOM解碼，並把解碼後的資料載入JSON陣列中
-            data = json.loads(jsondata.read().decode("utf-8-sig"))
-        garbagestation_list = []  # list
-        for i in data:
-            garbagestation_list.append(i)
-        return garbagestation_list
-    except:
-        raise Exception("下載失敗")  # 自己定義raise 拋出自定義的錯誤訊息
-
-
-# 抓台北郵遞區域
+# 下拉選單資料
 def Get_FISHTYP():
     # 寫死
-    TaipeiArea = {
+    FishType = {
         "全部": "A00",
         "外來種": "A01",
         "原生種": "A02",
     }
-    return TaipeiArea
+    return FishType
 
 
+# 下拉選單資料
 def Get_FISHYEAR():
     # 寫死
     TaipeiArea = {
@@ -87,6 +39,7 @@ def Get_FISHYEAR():
     return TaipeiArea
 
 
+# 下拉選單資料
 def Get_MAP():
     # 寫死
     TaipeiArea = {
@@ -96,6 +49,7 @@ def Get_MAP():
     return TaipeiArea
 
 
+# 下拉選單資料
 def Get_FISHNAME():
     # 寫死
     TaipeiArea = {
@@ -354,7 +308,7 @@ def Get_FISHNAME():
     return TaipeiArea
 
 
-# 抓台北區域的村里
+# 下拉列表整合 (未完成)
 import csv
 
 
