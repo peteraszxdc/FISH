@@ -45,7 +45,7 @@ class Window(tk.Tk):
             bd=3,
         ).grid(row=0, column=0, columnspan=10)
 
-        # 第一個下拉選單
+        # 原生種判定下拉選單
         TKLable(mainFrame, text="原生種判定", bd=1).grid(row=1, column=0)
         self.FishType_dict = ds.Get_FISHTYP()
         self.FishTypeValue = tk.StringVar()
@@ -60,7 +60,7 @@ class Window(tk.Tk):
         # 區域事件判定
         # self.FishType_Combo.bind("<<ComboboxSelected>>", self.change_AreaVillage_Combo)
 
-        # 第二個下拉選單
+        # 年度下拉選單
         TKLable(mainFrame, text="年度", bd=1).grid(row=1, column=2)
         self.FishYear_dict = ds.Get_FISHYEAR()
         self.FishYearValue = tk.StringVar()
@@ -73,7 +73,7 @@ class Window(tk.Tk):
         self.FishYear_Combo.grid(row=1, column=3)
         self.FishYear_Combo.current(0)
 
-        # 第三個下拉選單
+        # 地圖標記下拉選單
         TKLable(mainFrame, text="地圖標記", bd=1).grid(row=1, column=4)
         self.FishMap_dict = ds.Get_MAP()
         self.FishMapValue = tk.StringVar()
@@ -86,7 +86,7 @@ class Window(tk.Tk):
         self.FishMap_Combo.grid(row=1, column=5)
         self.FishMap_Combo.current(0)
 
-        # 第四個下拉選單
+        # 中文名下拉選單
         TKLable(mainFrame, text="中文名", bd=3).grid(row=1, column=6)
         self.FishName_dict = ds.Get_FISHNAME()
         self.FishNameValue = tk.StringVar()
@@ -201,8 +201,12 @@ class Window(tk.Tk):
                 )
                 dataFrame.pack(side=tk.LEFT)
             else:
-                TKLable(self.displayFrame, text="oops...沒有垃圾車資訊唷").pack(padx=10, pady=10)
-#---------------------------------------------------------------------------------
+                TKLable(self.displayFrame, text="oops...沒有垃圾車資訊唷").pack(
+                    padx=10, pady=10
+                )
+
+
+# ---------------------------------------------------------------------------------
 
 
 def main():
