@@ -58,9 +58,20 @@ class Window(tk.Tk):
         self.FishType_Combo.grid(row=1, column=1)
         self.FishType_Combo.current(0)
         # 區域事件判定
-        #self.FishType_Combo.bind("<<ComboboxSelected>>", self.change_AreaVillage_Combo)
+        # self.FishType_Combo.bind("<<ComboboxSelected>>", self.change_AreaVillage_Combo)
 
         # 第二個下拉選單
+        TKLable(mainFrame, text="年度", bd=1).grid(row=1, column=2)
+        self.FishYear_dict = ds.Get_FISHYEAR()
+        # self.AreaVillageValue = tk.StringVar()
+        self.FishYear_Combo = ttk.Combobox(
+            mainFrame,
+            values=list(self.FishYear_dict.keys()),
+            justify="center",
+            # textvariable=self.AreaVillageValue,
+        )
+        self.FishYear_Combo.grid(row=1, column=3)
+        self.FishYear_Combo.current(0)
         # 第三個下拉選單
         # 第四個下拉選單
 
@@ -69,7 +80,7 @@ def main():
     window = Window()
     window.title("Fish")  # title
     window.resizable(0, 0)  # 禁止拖拉視窗調整視窗大小
-    window.geometry("1300x500")  #視窗大小
+    window.geometry("1300x500")  # 視窗大小
     window.mainloop()
 
 

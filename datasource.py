@@ -17,7 +17,7 @@ def Get_FISHTYP():
 # 下拉選單資料
 def Get_FISHYEAR():
     # 寫死
-    TaipeiArea = {
+    FishYear = {
         "全部": "A00",
         "97": "A01",
         "98": "A02",
@@ -36,7 +36,7 @@ def Get_FISHYEAR():
         "111": "A15",
         "112": "A16",
     }
-    return TaipeiArea
+    return FishYear
 
 
 # 下拉選單資料
