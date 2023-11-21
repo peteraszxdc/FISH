@@ -105,22 +105,7 @@ class Window(tk.Tk):
 
         self.keyButton.grid(row=4, column=0, columnspan=10, pady=(5, 0), sticky="nsew")
 
-    # 下拉選單連結 Function 未完成
-    # def change_AreaVillage_Combo(self, event):
-    # towncode01 = self.FishType_dict_dict[self.FishTypeValue.get()]
-    # value = ds.Get_AreaVillage(towncode01)
-    # self.AreaVillage_Combo.config(values=value)
-    # self.AreaVillage_Combo.current(0)
-    # def change_FishType_Combo(self, event):
-    #    fish_type = self.FishTypeValue.get()
-
-    # 利用字典获取相应的值
-    #        fish_type_code = self.FishType_dict.get(fish_type, "")
-
-    # 更新 AreaVillage_Combo 下拉框的选项
-    #       value = ds.Get_AreaVillage(fish_type_code)
-    #      self.FishName_Combo.config(values=value)
-    #     self.FishName_Combo.current(0)
+    # 下拉選單連結 Function 
     def update_second_combobox(self, event):
         selected_tag = self.FishType_dict[self.FishTypeValue.get()]
         # 根据第一个下拉菜单的选项更新第二个下拉菜单的选项

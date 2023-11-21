@@ -306,35 +306,3 @@ def Get_FISHNAME():
         "高體高鬚魚": "A01",
     }
     return FishName
-
-
-# 下拉列表整合 (未完成)
-import csv
-
-
-def Get_AreaVillage_from_csv(fishcode01):
-    csv_filename = f"Pie_data{fishcode01}.csv"
-    AreaVillage_list = []
-
-    with open(csv_filename, "r", newline="", encoding="utf-8") as csvfile:
-        csv_reader = csv.reader(csvfile)
-        # next(csv_reader)  # 跳過標題列
-        for row in csv_reader:
-            village_name = row[0]
-            AreaVillage_list.append(village_name)
-
-    return AreaVillage_list
-
-
-# 抓台北區域的村里
-def Get_AreaVillage(fish_type_code):
-    AreaVillage_list = ["全部"]  # list
-    if fish_type_code != "A00":
-        url = f"https://api.nlsc.gov.tw/other/ListVillage/A/{towncode01}"
-        response = requests.get(url=url)
-        xml = ET.fromstring(response.content)  # parse XML
-
-        for i in xml.iter("villageName"):
-            AreaVillage_list.append(i.text)
-
-    return AreaVillage_list
