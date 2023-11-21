@@ -58,7 +58,7 @@ class Window(tk.Tk):
         self.FishType_Combo.grid(row=1, column=1)
         self.FishType_Combo.current(0)
         # 區域事件判定
-        # self.FishType_Combo.bind("<<ComboboxSelected>>", self.change_AreaVillage_Combo)
+        self.FishType_Combo.bind("<<ComboboxSelected>>", self.update_second_combobox)
 
         # 年度下拉選單
         TKLable(mainFrame, text="年度", bd=1).grid(row=1, column=2)
@@ -107,10 +107,28 @@ class Window(tk.Tk):
 
     # 下拉選單連結 Function 未完成
     # def change_AreaVillage_Combo(self, event):
-    # towncode01 = self.TaipeiArea_dict[self.TaipeiAreaValue.get()]
+    # towncode01 = self.FishType_dict_dict[self.FishTypeValue.get()]
     # value = ds.Get_AreaVillage(towncode01)
     # self.AreaVillage_Combo.config(values=value)
     # self.AreaVillage_Combo.current(0)
+    # def change_FishType_Combo(self, event):
+    #    fish_type = self.FishTypeValue.get()
+
+    # 利用字典获取相应的值
+    #        fish_type_code = self.FishType_dict.get(fish_type, "")
+
+    # 更新 AreaVillage_Combo 下拉框的选项
+    #       value = ds.Get_AreaVillage(fish_type_code)
+    #      self.FishName_Combo.config(values=value)
+    #     self.FishName_Combo.current(0)
+    def update_second_combobox(self, event):
+        selected_tag = self.FishType_dict[self.FishTypeValue.get()]
+        # 根据第一个下拉菜单的选项更新第二个下拉菜单的选项
+        filtered_names = [
+            name for name, tag in self.FishName_dict.items() if tag == selected_tag
+        ]
+        self.FishName_Combo["values"] = filtered_names
+        self.FishName_Combo.current(0)
 
     # 搜尋條件 未完成 下面都是錯的----------------------------------------------------------------------------
     def KeySearch(self):
