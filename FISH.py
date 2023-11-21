@@ -57,7 +57,7 @@ class Window(tk.Tk):
         )
         self.FishType_Combo.grid(row=1, column=1)
         self.FishType_Combo.current(0)
-        # 區域事件判定
+        # 下拉選單綁定Function
         self.FishType_Combo.bind("<<ComboboxSelected>>", self.update_second_combobox)
 
         # 年度下拉選單
@@ -105,14 +105,24 @@ class Window(tk.Tk):
 
         self.keyButton.grid(row=4, column=0, columnspan=10, pady=(5, 0), sticky="nsew")
 
-        self.map_widget = tkintermapview.TkinterMapView(self,width=100, height=800, corner_radius=0)
-        self.map_widget.pack(fill="both", expand=True)
-        self.map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22)
-        #map_widget.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-        self.map_widget.set_position(25.1150128,121.5361573)  # 設置初始座標(台北職能學院)
-        self.map_widget.set_zoom(15)
+        # Map 地圖
+        map_box = tk.Canvas(self.KeywordFrame)
+        map_box.pack(fill="both", expand=True, pady=10, padx=100)
 
-    # 下拉選單連結 Function 
+        self.map_widget = tkintermapview.TkinterMapView(
+            map_box, width=100, height=800, corner_radius=0
+        )
+        self.map_widget.pack(fill="both", expand=True, pady=5, padx=80)
+        self.map_widget.set_tile_server(
+            "https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22
+        )
+        # map_widget.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        self.map_widget.set_position(
+            23.712467647617622, 120.89823983585597
+        )  # 設置初始座標(中部)
+        self.map_widget.set_zoom(8)
+
+    # 下拉選單連結 Function
     def update_second_combobox(self, event):
         selected_tag = self.FishType_dict[self.FishTypeValue.get()]
         # 根据第一个下拉菜单的选项更新第二个下拉菜单的选项
@@ -223,7 +233,7 @@ def main():
     window = Window()
     window.title("Fish")  # title
     window.resizable(0, 0)  # 禁止拖拉視窗調整視窗大小
-    window.geometry("1300x500")  # 視窗大小
+    window.geometry("1000x800")  # 視窗大小
     window.mainloop()
 
 
