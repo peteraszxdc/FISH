@@ -5,6 +5,7 @@ import datasource as ds
 import tkintermapview  # 地圖
 import os
 import base64
+import csv
 
 
 # 標籤
@@ -29,7 +30,7 @@ class Window(tk.Tk):
         self.config(bg="#345678")
 
         title = tk.Label(self, text="Fish", bg="#345678")
-        titlefont = tkFont.Font(family="微軟正黑體", size=18, weight="bold")
+        titlefont = tkFont.Font(family="微軟正黑體", size=36, weight="bold")
         title.config(font=titlefont, foreground="#FFFFFF")
         title.pack(padx=10, pady=10)
 
@@ -43,7 +44,7 @@ class Window(tk.Tk):
             mainFrame,
             text="魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚",
             bd=3,
-        ).grid(row=0, column=0, columnspan=10)
+        ).grid(row=0, column=0, columnspan=10, pady=5)
 
         # 原生種判定下拉選單
         TKLable(mainFrame, text="原生種判定", bd=1).grid(row=1, column=0)
@@ -101,12 +102,12 @@ class Window(tk.Tk):
 
         # 搜尋按鈕
         self.keyButton = TKButton(mainFrame, text="搜尋", command=self.KeySearch)
-        self.keyButton.config(width=80, border=2)
+        self.keyButton.config(width=80, border=3)
 
         self.keyButton.grid(row=4, column=0, columnspan=10, pady=(5, 0), sticky="nsew")
 
         # Map 地圖
-        map_box = tk.Canvas(self.KeywordFrame) #用一個box包住Map
+        map_box = tk.Canvas(self.KeywordFrame)  # 用一個box包住Map
         map_box.pack(fill="both", expand=True, pady=10, padx=100)
 
         self.map_widget = tkintermapview.TkinterMapView(
@@ -116,7 +117,7 @@ class Window(tk.Tk):
         self.map_widget.set_tile_server(
             "https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22
         )
-        #map_widget.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        # map_widget.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
         self.map_widget.set_position(
             23.623468547617622, 120.89823983585597
         )  # 設置初始座標(中部)
@@ -134,22 +135,24 @@ class Window(tk.Tk):
 
     # 搜尋條件 未完成 下面都是錯的----------------------------------------------------------------------------
     def KeySearch(self):
-        Road = ""  # 街道名稱
-        Towncode01 = ""  # 行政區
-        Towncode02 = ""  # 村里
-        TimeStart = ""  # 抵達時間起
-        TimeEnd = ""  # 抵達時間迄
+        #Road = ""  # 街道名稱
+        #Towncode01 = ""  # 行政區
+        #Towncode02 = ""  # 村里
+        #TimeStart = ""  # 抵達時間起
+        #TimeEnd = ""  # 抵達時間迄
 
-        if self.Search.get() != "":
-            Road = self.Search.get()
-        if self.TaipeiAreaValue.get() != "全區":
-            Towncode01 = self.TaipeiAreaValue.get()
-        if self.AreaVillageValue.get() != "全部":
-            Towncode02 = self.AreaVillageValue.get()
-        if self.TimeStart.get() != "":
-            TimeStart = self.TimeStart.get().replace(":", "")
-        if self.TimeEnd.get() != "":
-            TimeEnd = self.TimeEnd.get().replace(":", "")
+        with open ("Pie_data.csv","r",encoding="utf-8") as file:
+            reader =csv.reader(file)
+          
+
+            for row in reader:
+                csv_data = ",".join["%s"]*len(row)
+                print(",".join(["%s"]*len(row)))
+                print(["%s"]*len(row))
+                print(row)
+
+
+
         # 抵達時間不可以只輸入一個
         if self.TimeStart.get() != "" and self.TimeEnd.get() == "":
             messagebox.showwarning("請輸入欄位", "抵達時間(迄)請勿空白", parent=self.keyButton)
@@ -232,7 +235,7 @@ class Window(tk.Tk):
 def main():
     window = Window()
     window.title("Fish")  # title
-    window.resizable(0, 0)  # 禁止拖拉視窗調整視窗大小
+    window.resizable()  # 禁止拖拉視窗調整視窗大小
     window.geometry("1000x900")  # 視窗大小
     window.mainloop()
 
