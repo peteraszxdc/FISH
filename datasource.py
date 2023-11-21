@@ -42,17 +42,17 @@ def Get_FISHYEAR():
 # 下拉選單資料
 def Get_MAP():
     # 寫死
-    TaipeiArea = {
+    FishMap = {
         "一般": "A00",
         "依數量": "A01",
     }
-    return TaipeiArea
+    return FishMap
 
 
 # 下拉選單資料
 def Get_FISHNAME():
     # 寫死
-    TaipeiArea = {
+    FishName = {
         "全部": "A00",
         "寬帶裂身鰕虎": "A01",
         "七星鱧": "A02",
@@ -305,7 +305,7 @@ def Get_FISHNAME():
         "鱅": "A249",
         "纓口臺鰍": "A250",
     }
-    return TaipeiArea
+    return FishName
 
 
 # 下拉列表整合 (未完成)

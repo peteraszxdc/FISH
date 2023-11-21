@@ -63,17 +63,146 @@ class Window(tk.Tk):
         # 第二個下拉選單
         TKLable(mainFrame, text="年度", bd=1).grid(row=1, column=2)
         self.FishYear_dict = ds.Get_FISHYEAR()
-        # self.AreaVillageValue = tk.StringVar()
+        self.FishYearValue = tk.StringVar()
         self.FishYear_Combo = ttk.Combobox(
             mainFrame,
             values=list(self.FishYear_dict.keys()),
             justify="center",
-            # textvariable=self.AreaVillageValue,
+            textvariable=self.FishYearValue,
         )
         self.FishYear_Combo.grid(row=1, column=3)
         self.FishYear_Combo.current(0)
+
         # 第三個下拉選單
+        TKLable(mainFrame, text="地圖標記", bd=1).grid(row=1, column=4)
+        self.FishMap_dict = ds.Get_MAP()
+        self.FishMapValue = tk.StringVar()
+        self.FishMap_Combo = ttk.Combobox(
+            mainFrame,
+            values=list(self.FishMap_dict.keys()),
+            justify="center",
+            textvariable=self.FishMapValue,
+        )
+        self.FishMap_Combo.grid(row=1, column=5)
+        self.FishMap_Combo.current(0)
+
         # 第四個下拉選單
+        TKLable(mainFrame, text="中文名", bd=3).grid(row=1, column=6)
+        self.FishName_dict = ds.Get_FISHNAME()
+        self.FishNameValue = tk.StringVar()
+        self.FishName_Combo = ttk.Combobox(
+            mainFrame,
+            values=list(self.FishName_dict.keys()),
+            justify="center",
+            textvariable=self.FishNameValue,
+        )
+        self.FishName_Combo.grid(row=1, column=7)
+        self.FishName_Combo.current(0)
+
+        # 搜尋按鈕
+        self.keyButton = TKButton(mainFrame, text="搜尋", command=self.KeySearch)
+        self.keyButton.config(width=80, border=2)
+
+        self.keyButton.grid(row=4, column=0, columnspan=10, pady=(5, 0), sticky="nsew")
+
+    # 下拉選單連結 Function 未完成
+    # def change_AreaVillage_Combo(self, event):
+    # towncode01 = self.TaipeiArea_dict[self.TaipeiAreaValue.get()]
+    # value = ds.Get_AreaVillage(towncode01)
+    # self.AreaVillage_Combo.config(values=value)
+    # self.AreaVillage_Combo.current(0)
+
+    # 搜尋條件 未完成 下面都是錯的----------------------------------------------------------------------------
+    def KeySearch(self):
+        Road = ""  # 街道名稱
+        Towncode01 = ""  # 行政區
+        Towncode02 = ""  # 村里
+        TimeStart = ""  # 抵達時間起
+        TimeEnd = ""  # 抵達時間迄
+
+        if self.Search.get() != "":
+            Road = self.Search.get()
+        if self.TaipeiAreaValue.get() != "全區":
+            Towncode01 = self.TaipeiAreaValue.get()
+        if self.AreaVillageValue.get() != "全部":
+            Towncode02 = self.AreaVillageValue.get()
+        if self.TimeStart.get() != "":
+            TimeStart = self.TimeStart.get().replace(":", "")
+        if self.TimeEnd.get() != "":
+            TimeEnd = self.TimeEnd.get().replace(":", "")
+        # 抵達時間不可以只輸入一個
+        if self.TimeStart.get() != "" and self.TimeEnd.get() == "":
+            messagebox.showwarning("請輸入欄位", "抵達時間(迄)請勿空白", parent=self.keyButton)
+            return
+        elif self.TimeStart.get() == "" and self.TimeEnd.get() != "":
+            messagebox.showwarning("請輸入欄位", "抵達時間(起)請勿空白", parent=self.keyButton)
+            return
+
+        # print("視窗的值:",Road,Towncode01,Towncode02,TimeStart,TimeEnd)
+        keydata = []
+        for item in self.garbagestation_list:
+            Roadcheck = False
+            Towncode01check = False
+            Towncode02check = False
+
+            x = float(item["經度"])  # 25.05081974
+            y = float(item["緯度"])  # 121.5438535
+            address = item["地點"]  # 臺北市中山區復興北路66號
+            TaipeiArea = item["行政區"]  # 中山區
+            AreaVillage = item["里別"]  # 力行里
+            carNum = item["車號"]  # 119-BQ
+            timeS = item["抵達時間"]  # 1700
+            timeE = item["離開時間"]  # 1709
+
+            # 都沒輸入，印全部
+            if (
+                Road == ""
+                and Towncode01 == ""
+                and Towncode02 == ""
+                and TimeStart == ""
+                and TimeEnd == ""
+            ):
+                timeS = f'{item["抵達時間"][:2]}:{item["抵達時間"][2:]}'  # 1700
+                timeE = f'{item["離開時間"][:2]}:{item["離開時間"][2:]}'  # 1709
+                keydata.append([address, carNum, timeS, timeE, x, y])
+            else:  # 根據搜尋條件來印對應資料
+                Towncode01check = TaipeiArea.__contains__(Towncode01)
+                Towncode02check = AreaVillage.__contains__(Towncode02)
+                Roadcheck = address.__contains__(Road)
+
+                if Towncode01check and Towncode02check and Roadcheck:
+                    # 時間區間
+                    if TimeStart != "":
+                        if int(float(timeS)) >= int(float(TimeStart)) and int(
+                            float(timeS)
+                        ) <= int(float(TimeEnd)):
+                            timeS = f'{item["抵達時間"][:2]}:{item["抵達時間"][2:]}'  # 1700
+                            timeE = f'{item["離開時間"][:2]}:{item["離開時間"][2:]}'  # 1709
+                            keydata.append([address, carNum, timeS, timeE, x, y])
+                    else:
+                        timeS = f'{item["抵達時間"][:2]}:{item["抵達時間"][2:]}'  # 1700
+                        timeE = f'{item["離開時間"][:2]}:{item["離開時間"][2:]}'  # 1709
+                        keydata.append([address, carNum, timeS, timeE, x, y])
+
+            # LabelFrame
+            if hasattr(self, "displayFrame"):
+                self.displayFrame.destroy()
+            self.displayFrame = ttk.LabelFrame(
+                self.KeywordFrame,
+                text=f"\n查詢結果({len(keydata)}筆)",
+                borderwidth=2,
+                relief=tk.GROOVE,
+            )
+            self.displayFrame.pack(fill=tk.BOTH, padx=80, pady=(0, 30))
+            if len(keydata) != 0:
+                # print(keydata)
+                dataFrame = CustomFrame(
+                    self.displayFrame, data=keydata, map_widget=self.map_widget
+                )
+                dataFrame.pack(side=tk.LEFT)
+            else:
+                TKLable(self.displayFrame, text="oops...沒有垃圾車資訊唷").pack(padx=10, pady=10)
+#---------------------------------------------------------------------------------
 
 
 def main():
