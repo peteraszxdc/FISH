@@ -116,7 +116,7 @@ class Window(tk.Tk):
         self.map_widget.set_tile_server(
             "https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22
         )
-        # map_widget.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        #map_widget.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
         self.map_widget.set_position(
             23.623468547617622, 120.89823983585597
         )  # 設置初始座標(中部)
