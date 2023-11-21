@@ -106,7 +106,7 @@ class Window(tk.Tk):
         self.keyButton.grid(row=4, column=0, columnspan=10, pady=(5, 0), sticky="nsew")
 
         # Map 地圖
-        map_box = tk.Canvas(self.KeywordFrame)
+        map_box = tk.Canvas(self.KeywordFrame) #用一個box包住Map
         map_box.pack(fill="both", expand=True, pady=10, padx=100)
 
         self.map_widget = tkintermapview.TkinterMapView(
@@ -118,7 +118,7 @@ class Window(tk.Tk):
         )
         # map_widget.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
         self.map_widget.set_position(
-            23.712467647617622, 120.89823983585597
+            23.623468547617622, 120.89823983585597
         )  # 設置初始座標(中部)
         self.map_widget.set_zoom(8)
 
@@ -233,7 +233,7 @@ def main():
     window = Window()
     window.title("Fish")  # title
     window.resizable(0, 0)  # 禁止拖拉視窗調整視窗大小
-    window.geometry("1000x800")  # 視窗大小
+    window.geometry("1000x900")  # 視窗大小
     window.mainloop()
 
 
