@@ -6,6 +6,7 @@ import tkintermapview  # 地圖
 import os
 import base64
 import csv
+import pandas as pd
 
 
 # 標籤
@@ -145,11 +146,13 @@ class Window(tk.Tk):
         # 搜尋條件 未完成 下面都是錯的----------------------------------------------------------------------------
 
     def KeySearch(self) -> list[list]:
-        with open("Pie_data.csv", "r", encoding="utf-8") as file:
-            csvReader = csv.reader(file)
-            next(csvReader)
-            list_csvReader = list(csvReader)
-            return list_csvReader
+        df = pd.read_csv("Pie_data.csv", encoding="utf-8", low_memory=False)
+        for item in df.iterrows():
+            print(item[1]["中文名"])
+            print(item[1]["Longitude"])
+            print(item[1]["Latitude"])
+            print("=================")
+            # 要先查資料類型
 
 
 def main():
