@@ -8,7 +8,7 @@ def Get_FISHTYP():
     # 寫死
     FishType = {
         "全部": "A00",
-        "A02": "A01",
+        "外來種": "A01",
         "原生種": "A02",
     }
     return FishType

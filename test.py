@@ -166,11 +166,9 @@ class Window(tk.Tk):
             # 要先查資料類型
             if fishtype == fishyear == fishname:
                 print(item[1])
-            if (
-                item[1]["原生種判定"] == fishtype
-                and item[1]["年度"] == fishyear
-                and item[1]["中文名"] == fishname
-            ):
+            elif (
+                item[1]["原生種判定"] == fishtype and item[1]["年度"] == fishyear and item[1]["中文名"] == fishname):
+
                 print(item[1]["中文名"])
 
 
