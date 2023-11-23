@@ -4,9 +4,11 @@ import tkinter.font as tkFont
 import datasource as ds
 import tkintermapview  # 地圖
 import os
-import base64
 import csv
 import pandas as pd
+from tkinter import PhotoImage
+import base64
+from PIL import Image, ImageTk
 
 
 # 標籤
@@ -115,11 +117,9 @@ class Window(tk.Tk):
             map_box, width=100, height=800, corner_radius=0
         )
         # 引進地圖Function
-        self.MarkMap()
-        self.MapSet()
 
-    # 地圖Fuction
-    def MapSet(self):
+        # 地圖Fuction
+
         self.map_widget.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
         self.map_widget.pack(fill="both", expand=True, pady=5, padx=80)
         self.map_widget.set_tile_server(
@@ -129,8 +129,12 @@ class Window(tk.Tk):
         self.map_widget.set_position(23.623468547617622, 120.89823983585597)
         self.map_widget.set_zoom(8)
 
-    # 地圖標記Function
-    def MarkMap(self):
+        # 地圖標記Function
+        # MARK TYPE IMG
+        current_path = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+        Mark_image = ImageTk.PhotoImage(
+            Image.open(os.path.join(current_path, "colordot.png")).resize((10, 10))
+        )
         # self.map_widget.set_position(25.0811164, 121.6052025, marker=True)
         df = pd.read_csv("Pie_data.csv", encoding="utf-8", low_memory=False)
         count = 0
@@ -138,13 +142,15 @@ class Window(tk.Tk):
             x = float(item[1]["Latitude"])
             y = float(item[1]["Longitude"])
             if x != 0:
-                self.map_widget.set_marker(x, y, text="Brandenburger Tor")
+                self.map_widget.set_marker(x, y, icon=Mark_image)
                 count += 1  # 每次符合条件时增加计数器
-            if count == 2:  # 当计数器达到2时，退出循环
-                break
+                if count == 6000:  # 当计数器达到2时，退出循环
+                    print(count)
+                    break
             else:
                 print("----")
                 print(x, y, item[1]["Latitude"])
+                print(count)
                 break
 
     # 下拉選單連結 Function

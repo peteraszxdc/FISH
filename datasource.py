@@ -6,11 +6,7 @@ import csv
 # 下拉選單資料
 def Get_FISHTYP():
     # 寫死
-    FishType = {
-        "全部": "A00",
-        "外來種": "A01",
-        "原生種": "A02",
-    }
+    FishType = {"全部": "A00", "原生種": "A02", "外來種": "A01"}
     return FishType
 
 
@@ -306,5 +302,3 @@ def Get_FISHNAME():
         "高體高鬚魚": "A01",
     }
     return FishName
-
-
