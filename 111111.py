@@ -45,7 +45,7 @@ class Window(tk.Tk):
 
         TKLable(
             mainFrame,
-            text="魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚魚",
+            text="請使用下方列表,選取您想查詢的物件",
             bd=3,
         ).grid(row=0, column=0, columnspan=10, pady=5)
 
@@ -77,8 +77,6 @@ class Window(tk.Tk):
         self.FishYear_Combo.grid(row=1, column=3)
         self.FishYear_Combo.current(0)
 
-        # self.FishYear_Combo.bind("<<ComboboxSelected>>", self.FishYear_Combo)
-
         # 地圖標記下拉選單
         TKLable(mainFrame, text="地圖標記", bd=1).grid(row=1, column=4)
         self.FishMap_dict = ds.Get_MAP()
@@ -104,8 +102,6 @@ class Window(tk.Tk):
         )
         self.FishName_Combo.grid(row=1, column=7)
         self.FishName_Combo.current(0)
-
-        # self.FishYear_Combo.bind("<<ComboboxSelected>>", self.update_FishName_Combo)
 
         # 搜尋按鈕
         self.keyButton = TKButton(mainFrame, text="搜尋", command=self.KeySearch)
@@ -137,20 +133,12 @@ class Window(tk.Tk):
         self.map_widget.set_position(23.623468547617622, 120.89823983585597)
         self.map_widget.set_zoom(8)
 
-    """            
-    # 下拉選單連結 Function
-    def update_second_combobox(self, event):
-        selected_tag = self.FishType_dict[self.FishTypeValue.get()]
-        # 根据第一个下拉菜单的选项更新第二个下拉菜单的选项
-        filtered_names = [
-            name for name, tag in self.FishName_dict.items() if tag == selected_tag
-        ]
-        self.FishName_Combo["values"] = filtered_names
-        self.FishName_Combo.current(0)
-    """
-    # 搜尋條件 未完成 下面都是錯的----------------------------------------------------------------------------
-
+    # 搜尋條件 
     def KeySearch(self) -> list[list]:
+        #print(type(self.FishYearValue))
+        #print(type(self.FishTypeValue))
+        #print(type(self.FishNameValue))
+
         self.map_widget.delete_all_marker()  # 刪除舊的標點
 
         # Search定義
@@ -169,6 +157,8 @@ class Window(tk.Tk):
             fishtype = str(self.FishTypeValue.get())
         if self.FishNameValue.get() != "全部":
             fishname = str(self.FishNameValue.get())
+        #if self.FishYearValue.get() != "全部":
+        #    fishyear = int(self.FishYearValue.get())
 
         # 处理 FishYearValue
         try:
