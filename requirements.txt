@@ -1,5 +1,4 @@
-tkintermapview
-tkinter
+tk
 tkintermapview
 pandas
 PIL

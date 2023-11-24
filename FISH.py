@@ -65,7 +65,7 @@ class Window(tk.Tk):
         # 年度下拉選單
         TKLable(mainFrame, text="年度", bd=1).grid(row=1, column=2)
         self.FishYear_dict = ds.Get_FISHYEAR()
-        self.FishYearValue = tk.IntVar()
+        self.FishYearValue = tk.StringVar()
         self.FishYear_Combo = ttk.Combobox(
             mainFrame,
             values=list(self.FishYear_dict.keys()),
@@ -76,7 +76,7 @@ class Window(tk.Tk):
         self.FishYear_Combo.current(0)
 
         # 地圖標記下拉選單
-        TKLable(mainFrame, text="地圖標記", bd=1).grid(row=1, column=4)
+        '''TKLable(mainFrame, text="地圖標記", bd=1).grid(row=1, column=4)
         self.FishMap_dict = ds.Get_MAP()
         self.FishMapValue = tk.StringVar()
         self.FishMap_Combo = ttk.Combobox(
@@ -86,7 +86,7 @@ class Window(tk.Tk):
             textvariable=self.FishMapValue,
         )
         self.FishMap_Combo.grid(row=1, column=5)
-        self.FishMap_Combo.current(0)
+        self.FishMap_Combo.current(0)'''
 
         # 中文名下拉選單
         TKLable(mainFrame, text="中文名", bd=3).grid(row=1, column=6)
@@ -130,21 +130,24 @@ class Window(tk.Tk):
         # 設置初始座標(中部)
         self.map_widget.set_position(23.623468547617622, 120.89823983585597)
         self.map_widget.set_zoom(8)
-        #######################
+        #地圖標籤 右鍵
         # self.map_widget.add_right_click_menu_command(
         #    label="Add Marker", command=self.add_marker_event, pass_coords=True)
-
+    
     # 搜尋條件
     def KeySearch(self) -> list[list]:
+        aa=0
+        
         # print(type(self.FishYearValue))
         # print(type(self.FishTypeValue))
         # print(type(self.FishNameValue))
-        count = 0
+        
         self.map_widget.delete_all_marker()  # 刪除舊的標點
 
         # Search定義
         fishtype = ""  # 原生種名稱
         fishyear = ""  # 年度
+        #fishyear = str(fishyear1)
         fishname = ""  # 中文名
         """
         if self.FishTypeValue.get() != "全部":
@@ -153,13 +156,13 @@ class Window(tk.Tk):
             fishyear = int(self.FishYearValue.get())
         if self.FishNameValue.get() != "全部":
             fishname = str(self.FishNameValue.get())
-            """
+        """
         if self.FishTypeValue.get() != "全部":
             fishtype = str(self.FishTypeValue.get())
         if self.FishNameValue.get() != "全部":
             fishname = str(self.FishNameValue.get())
-        # if self.FishYearValue.get() != "全部":
-        #    fishyear = int(self.FishYearValue.get())
+        #if self.FishYearValue.get() != "全部":
+        #    fishyear = str(self.FishYearValue.get())
 
         # 处理 FishYearValue
         try:
@@ -170,7 +173,7 @@ class Window(tk.Tk):
 
         # 用pandas 讀取 csv 檔
         df = pd.read_csv("Pie_data.csv", encoding="utf-8", low_memory=False)
-
+        
         for item in df.iterrows():
             fishtypecheck = False
             fishyearcheck = False
@@ -178,7 +181,7 @@ class Window(tk.Tk):
 
             name = item[1]["中文名"]
             type = item[1]["原生種判定"]
-            year = item[1]["年度"]
+            year = (item[1]["年度"])
             count = item[1]["數量(隻)"]
             where = item[1]["水系"]
             x = float(item[1]["Latitude"])
@@ -190,41 +193,34 @@ class Window(tk.Tk):
             # print("=================")
             # 要先查資料類型
             if fishtype == "" and fishyear == "" and fishname == "":
+                aa += 1    
+                self.map_widget.set_marker(x, y, icon=self.Mark_image)          
+                if aa==1:
+                    print("break4")
+                    break
+            if fishtype =="" and fishname == "" or fishtype =="" and fishyear == "" or fishname =="" and fishyear == ""  :
+                aa += 1
                 self.map_widget.set_marker(x, y, icon=self.Mark_image)
-            # else:
-            # fishtypecheck = type.__contains__(fishtype)
-            # fishyearcheck = year.__contains__(fishyear)
-            # fishnamecheck = name.__contains__(fishname)
-
-            # if (item[1]["原生種判定"]) == fishtype and (item[1]["年度"]) == fishyear and (item[1]["中文名"]) == fishname:
-            #    self.map_widget.set_marker(x, y, icon=self.Mark_image)
-
-            # if fishtype == fishyear == fishname:
-            #    self.map_widget.set_marker(x, y, icon=Mark_image)
-            # elif fishtype == fishyear:
-            #    self.map_widget.set_marker(x, y, icon=Mark_image)
-            # elif fishyear == fishname:
-            #    self.map_widget.set_marker(x, y, icon=Mark_image)
-            # elif fishtype == fishname:
-            #    self.map_widget.set_marker(x, y, icon=Mark_image)
-            # if (item[1]["原生種判定"] == fishtype
-            # and item[1]["年度"] == fishyear
-            # and item[1]["中文名"] == fishname):
-            # self.map_widget.set_marker(x, y, icon=Mark_image)
-
-            # if fishtype == item[1]["原生種判定"]:
-            # self.map_widget.set_marker(x, y, icon=Mark_image)
-
-            # if fishyear == item[1]["年度"]:
-            # self.map_widget.set_marker(x, y, icon=Mark_image)
-
+                if aa == 1:
+                    print("break3")
+                    break
+            if fishtype == "" or fishyear == "" or fishname == "":
+                aa += 1
+                fishyear = int(self.FishYearValue.get())
+                self.map_widget.set_marker(x, y, icon=self.Mark_image)
+                if aa == 5:
+                    print("break2")
+                    break
             if item[1]["中文名"] == fishname:
+                fishyear = int(self.FishYearValue.get())
+                aa += 1
                 self.map_widget.set_marker(x, y, icon=self.Mark_image)
-                count + 1
-                if count == 50:
-                    print("break")
+                
+                if aa == 2:
+                    print("break1")
                     break
 
+    #下拉選單連結Function
     def update_FishName_Combo(self, event):
         selected_tag = self.FishType_dict[self.FishTypeValue.get()]
         # 根据第一个下拉菜单的选项更新第二个下拉菜单的选项
@@ -239,7 +235,7 @@ class Window(tk.Tk):
             self.FishName_Combo["values"] = filtered_names
             self.FishName_Combo.current(0)
         self.FishNameValue.set("全部")
-
+    #地圖右鍵Function
     # def add_marker_event(coords):
     #   print("Add marker:", coords)
     # new_marker = map_widget.set_marker(coords[0], coords[1], text="new marker")
