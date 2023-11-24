@@ -200,10 +200,10 @@ class Window(tk.Tk):
             # 要先查資料類型
             if fishtype == "" and fishyear == "" and fishname == "":
                 self.map_widget.set_marker(x, y, icon=self.Mark_image)
-            else:
-                fishtypecheck = type.__contains__(fishtype)
-                fishyearcheck = year.__contains__(fishyear)
-                fishnamecheck = name.__contains__(fishname)
+            # else:
+            # fishtypecheck = type.__contains__(fishtype)
+            # fishyearcheck = year.__contains__(fishyear)
+            # fishnamecheck = name.__contains__(fishname)
 
             # if (item[1]["原生種判定"]) == fishtype and (item[1]["年度"]) == fishyear and (item[1]["中文名"]) == fishname:
             #    self.map_widget.set_marker(x, y, icon=self.Mark_image)
@@ -227,23 +227,8 @@ class Window(tk.Tk):
             # if fishyear == item[1]["年度"]:
             # self.map_widget.set_marker(x, y, icon=Mark_image)
 
-            # if item[1]["中文名"] == fishname:
-            # self.map_widget.set_marker(x, y, icon=Mark_image)
-
-    """def update_second_combobox(self):
-        # 取得原生種下拉選單的選項
-        selected_fish_type = self.FishTypeValue.get()
-        # 取得年度下拉選單的選項
-        selected_fish_year = self.FishYearValue.get()
-
-        # 根據選定的原生種，更新年度下拉選單的選項
-        self.FishYear_Combo.configure(
-            values=list(self.FishYear_dict[selected_fish_type])
-        )
-
-        self.FishName_Combo.configure(
-            values=list(self.FishName_dict[selected_fish_year])
-        )"""
+            if item[1]["中文名"] == fishname:
+                self.map_widget.set_marker(x, y, icon=self.Mark_image)
 
     def update_FishName_Combo(self, event):
         selected_tag = self.FishType_dict[self.FishTypeValue.get()]
