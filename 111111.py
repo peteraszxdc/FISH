@@ -132,13 +132,16 @@ class Window(tk.Tk):
         # 設置初始座標(中部)
         self.map_widget.set_position(23.623468547617622, 120.89823983585597)
         self.map_widget.set_zoom(8)
+        #######################
+        # self.map_widget.add_right_click_menu_command(
+        #    label="Add Marker", command=self.add_marker_event, pass_coords=True)
 
-    # 搜尋條件 
+    # 搜尋條件
     def KeySearch(self) -> list[list]:
-        #print(type(self.FishYearValue))
-        #print(type(self.FishTypeValue))
-        #print(type(self.FishNameValue))
-
+        # print(type(self.FishYearValue))
+        # print(type(self.FishTypeValue))
+        # print(type(self.FishNameValue))
+        count = 0
         self.map_widget.delete_all_marker()  # 刪除舊的標點
 
         # Search定義
@@ -157,7 +160,7 @@ class Window(tk.Tk):
             fishtype = str(self.FishTypeValue.get())
         if self.FishNameValue.get() != "全部":
             fishname = str(self.FishNameValue.get())
-        #if self.FishYearValue.get() != "全部":
+        # if self.FishYearValue.get() != "全部":
         #    fishyear = int(self.FishYearValue.get())
 
         # 处理 FishYearValue
@@ -219,6 +222,10 @@ class Window(tk.Tk):
 
             if item[1]["中文名"] == fishname:
                 self.map_widget.set_marker(x, y, icon=self.Mark_image)
+                count + 1
+                if count == 50:
+                    print("break")
+                    break
 
     def update_FishName_Combo(self, event):
         selected_tag = self.FishType_dict[self.FishTypeValue.get()]
@@ -234,6 +241,10 @@ class Window(tk.Tk):
             self.FishName_Combo["values"] = filtered_names
             self.FishName_Combo.current(0)
         self.FishNameValue.set("全部")
+
+    # def add_marker_event(coords):
+    #   print("Add marker:", coords)
+    # new_marker = map_widget.set_marker(coords[0], coords[1], text="new marker")
 
 
 def main():
