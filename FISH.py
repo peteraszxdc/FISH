@@ -4,10 +4,8 @@ import tkinter.font as tkFont
 import datasource as ds
 import tkintermapview  # 地圖
 import os
-import csv
 import pandas as pd
 from tkinter import PhotoImage
-import base64
 from PIL import Image, ImageTk
 
 

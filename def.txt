@@ -1,17 +1,1 @@
-迴圈 把資料變成標點
-df = pd.read_csv("Pie_data.csv", encoding="utf-8", low_memory=False)
-        count = 0
-        for item in df.iterrows():
-            x = float(item[1]["Latitude"])
-            y = float(item[1]["Longitude"])
-            if x != 0:
-                self.map_widget.set_marker(x, y, icon=Mark_image)
-                count += 1  # 每次符合条件时增加计数器
-                if count == 6000:  # 当计数器达到2时，退出循环
-                    print(count)
-                    break
-            else:
-                print("----")
-                print(x, y, item[1]["Latitude"])
-                print(count)
-                break
+pip install -r requirements
